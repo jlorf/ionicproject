@@ -34,7 +34,7 @@ const ActivitiesContext = React.createContext<ActivitiesContextModel>({
     alumnes: [],
     addActivity: () => {},
     completeActivity: () => {},
-    ObtenirPersones: () => {}
+    ObtenirPersones: () => []
 });
 
 export default ActivitiesContext;

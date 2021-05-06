@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import $ from 'jquery';
 import ActivitiesContext, { Activity, ActivitiesContextModel, ActivityType, Persona } from './activities-context';
 
 const ActivitiesContextProvider: React.FC = (props) => {
@@ -33,18 +34,19 @@ const ActivitiesContextProvider: React.FC = (props) => {
         }
     ]);
 
-    const ObtenirPersones = (professor: boolean) => {
-        let persones = new Persona[];
-        return ;
-    };
+    const ObtenirPersones = (professor: boolean) => [(
+        $.ajax({
+            method: "GET",
+            url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
+        })
+            .done(function(res) {
+                
+            });
+        )];
 
-    const [professors, setProfessors] = useState<Persona[]>([
-        ObtenirPersones(true)
-    ]);
+    const [professors, setProfessors] = useState<Persona[]>([]);
 
-    const [alumnes, setAlumnes] = useState<Persona[]>([
-        ObtenirPersones(false)
-    ]);
+    const [alumnes, setAlumnes] = useState<Persona[]>([]);
 
     const addActivity = (title: string, description: string, activityType: ActivityType) => {
         let imageUrl = '';
