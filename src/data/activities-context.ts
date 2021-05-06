@@ -23,7 +23,7 @@ export interface ActivitiesContextModel {
     activities: Activity[];
     professors: Persona[];
     alumnes: Persona[];
-    ObtenirPersones: (professor: boolean) => Persona[];
+    ObtenirPersones: (professor: boolean) => void;
     addActivity: (title: string, description: string, activityType: ActivityType) => void;
     completeActivity: (activityId: string) => void;
 }
@@ -34,7 +34,7 @@ const ActivitiesContext = React.createContext<ActivitiesContextModel>({
     alumnes: [],
     addActivity: () => {},
     completeActivity: () => {},
-    ObtenirPersones: () => []
+    ObtenirPersones: () => {}
 });
 
 export default ActivitiesContext;

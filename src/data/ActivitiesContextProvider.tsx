@@ -34,15 +34,33 @@ const ActivitiesContextProvider: React.FC = (props) => {
         }
     ]);
 
-    const ObtenirPersones = (professor: boolean) => [(
+    const ObtenirPersones = (professor: boolean) => {
+        var persones = Array<Persona>();
         $.ajax({
             method: "GET",
             url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
         })
             .done(function(res) {
-                
+                $.each(res.records, function( i, item ) {
+                    persones.push({
+                        codi: item.codi,
+                        Nom: item.Nom,
+                        Cognoms: item.Cognoms,
+                        professor: item.professor
+                    })
+                  });
+                  if (professor)
+                  {
+                    setProfessors(currProfessors => {
+                        return persones;
+                    });
+                  } else {
+                    setAlumnes(currProfessors => {
+                        return persones;
+                      });
+                  }
             });
-        )];
+    };
 
     const [professors, setProfessors] = useState<Persona[]>([]);
 
