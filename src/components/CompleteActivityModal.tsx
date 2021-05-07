@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { IonContent, IonGrid, IonRow, IonCol, IonImg, IonText, IonButton } from '@ionic/react';
-import ActivitiesContext, { Activity } from '../data/activities-context';
+import ActivitiesContext, { Activity } from '../data/context';
 
 interface CompleteModalActivityProps {
     activity: Activity;

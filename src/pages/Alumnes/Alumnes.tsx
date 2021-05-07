@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonButtons, IonMenuButton, IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonButton, IonModal, IonIcon } from '@ionic/react';
-import ActivitiesContext, { Persona } from '../../data/activities-context';
+import Context, { Persona } from '../../data/context';
 
 const Alumnes: React.FC = () => {
 
     const [activityToComplete, setActivityToComplete] = useState<Persona>();
 
-    const activitiesCtxt = useContext(ActivitiesContext);
+    const context = useContext(Context);
 
     const openCompleteModal = (persona: Persona) => {
         setActivityToComplete(persona);
@@ -33,8 +33,8 @@ const Alumnes: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        { activitiesCtxt.ObtenirPersones(false) }
-                        { activitiesCtxt.alumnes.map(alumne => (
+                        { context.ObtenirPersones(false) }
+                        { context.alumnes.map(alumne => (
                         <IonRow key={alumne.codi.toString()}>
                             <IonCol className="ion-text-center">
                                 <IonCard>

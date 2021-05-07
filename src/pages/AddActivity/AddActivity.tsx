@@ -18,13 +18,13 @@ import {
     IonButton,
     IonToast,
 } from '@ionic/react';
-import ActivitiesContext, { ActivityType } from '../../data/activities-context';
+import Context, { ActivityType } from '../../data/context';
 import { useHistory } from 'react-router-dom';
 
 const AddActivity: React.FC = () => {
 
     const history = useHistory();
-    const activitiesCtxt = useContext(ActivitiesContext);
+    const context = useContext(Context);
 
     const [toastMsg, setToastMsg] = useState<string>('');
 
@@ -38,7 +38,7 @@ const AddActivity: React.FC = () => {
         const activityType = activityTypeInput.current?.value as ActivityType;
 
         if (title && description && activityType) {
-            activitiesCtxt.addActivity(title, description, activityType);
+            context.addActivity(title, description, activityType);
             setToastMsg('The activity has been saved!');
             history.replace('/all-activities');
         }

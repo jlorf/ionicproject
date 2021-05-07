@@ -24,7 +24,7 @@ export interface LoginReturn {
     jwt: string;
 }
 
-export interface ActivitiesContextModel {
+export interface ContextModel {
     activities: Activity[];
     professors: Persona[];
     alumnes: Persona[];
@@ -34,9 +34,10 @@ export interface ActivitiesContextModel {
     completeActivity: (activityId: string) => void;
     Login: (email: string, password: string) => void;
     Registrar: (nom: string, cognom: string, email: string, password: string) => void;
+    presentAlert: (titol: string, subtitol: string, text: string, buttons: string[]) => void;
 }
 
-const ActivitiesContext = React.createContext<ActivitiesContextModel>({
+const Context = React.createContext<ContextModel>({
     activities: [],
     professors: [],
     alumnes: [],
@@ -45,7 +46,8 @@ const ActivitiesContext = React.createContext<ActivitiesContextModel>({
     completeActivity: () => {},
     ObtenirPersones: () => {},
     Login: () => {},
-    Registrar: () => {}
+    Registrar: () => {},
+    presentAlert: () => {}
 });
 
-export default ActivitiesContext;
+export default Context;

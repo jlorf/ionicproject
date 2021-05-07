@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import * as $ from 'jquery'
-import ActivitiesContext, { Activity, ActivitiesContextModel, ActivityType, Persona, LoginReturn } from './activities-context';
+import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn } from './context';
 
-const ActivitiesContextProvider: React.FC = (props) => {
+const ContextProvider: React.FC = (props) => {
 
     const [activities, setActivities] = useState<Activity[]>([
         {
@@ -39,6 +39,7 @@ const ActivitiesContextProvider: React.FC = (props) => {
         $.ajax({
             method: "GET",
             url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
+            data: {jwt: jwt}
         })
             .done(function(res) {
                 $.each(res.records, function(i, item : Persona) {
@@ -80,7 +81,7 @@ const ActivitiesContextProvider: React.FC = (props) => {
             });
     };
 
-    async function presentAlert(titol: string, subtitol: string, text: string, buttons: string[]) {
+    const presentAlert = async function(titol: string, subtitol: string, text: string, buttons: string[]) {
         const alert = document.createElement('ion-alert');
         alert.cssClass = 'my-custom-class';
         alert.header = titol;
@@ -160,7 +161,7 @@ const ActivitiesContextProvider: React.FC = (props) => {
 
     const jwt = '';
 
-    const activitiesContext: ActivitiesContextModel = {
+    const activitiesContext: ContextModel = {
         activities,
         addActivity,
         completeActivity,
@@ -169,7 +170,8 @@ const ActivitiesContextProvider: React.FC = (props) => {
         ObtenirPersones,
         jwt,
         Login,
-        Registrar
+        Registrar,
+        presentAlert
     };
 
     return (
@@ -179,4 +181,4 @@ const ActivitiesContextProvider: React.FC = (props) => {
     );
 };
 
-export default ActivitiesContextProvider;
+export default ContextProvider;

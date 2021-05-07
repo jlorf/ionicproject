@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonButtons, IonMenuButton, IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonButton, IonModal, IonIcon } from '@ionic/react';
-import ActivitiesContext, { Activity } from '../../data/activities-context';
+import Context, { Activity } from '../../data/context';
 import classes from './AllActivities.module.css';
 import CompleteModalActivity from '../../components/CompleteActivityModal';
 import { checkmarkOutline } from 'ionicons/icons';
@@ -9,7 +9,7 @@ const AllActivities: React.FC = () => {
 
     const [activityToComplete, setActivityToComplete] = useState<Activity>();
 
-    const activitiesCtxt = useContext(ActivitiesContext);
+    const context = useContext(Context);
 
     const openCompleteModal = (activity: Activity) => {
         setActivityToComplete(activity);
@@ -36,7 +36,7 @@ const AllActivities: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        { activitiesCtxt.activities.map(activity => (
+                        { context.activities.map(activity => (
                         <IonRow key={activity.id}>
                             <IonCol className="ion-text-center">
                                 <IonCard>
