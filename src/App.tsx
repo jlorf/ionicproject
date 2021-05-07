@@ -34,7 +34,7 @@ const App: React.FC = () => (
             <IonMenu contentId='scheduleAppM1'>
                 <IonHeader>
                     <IonToolbar>
-                        <IonTitle>Schedule App</IonTitle>
+                        <IonTitle>Projecte</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>

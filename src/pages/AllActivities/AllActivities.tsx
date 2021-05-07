@@ -31,7 +31,7 @@ const AllActivities: React.FC = () => {
                         <IonButtons slot="start">
                             <IonMenuButton />
                         </IonButtons>
-                        <IonTitle>All activities</IonTitle>
+                        <IonTitle>Moduls</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>

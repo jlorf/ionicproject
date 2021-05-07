@@ -16,6 +16,7 @@ const Alumnes: React.FC = () => {
         setActivityToComplete(undefined);
     };
 
+    if((context.alumnes?.length ?? 0) == 0) context.ObtenirPersones(false);
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>
@@ -33,7 +34,6 @@ const Alumnes: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        { context.ObtenirPersones(false) }
                         { context.alumnes.map(alumne => (
                         <IonRow key={alumne.codi.toString()}>
                             <IonCol className="ion-text-center">
