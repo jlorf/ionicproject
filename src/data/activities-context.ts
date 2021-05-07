@@ -19,22 +19,33 @@ export interface Persona {
     professor: boolean;
 }
 
+export interface LoginReturn {
+    message: string;
+    jwt: string;
+}
+
 export interface ActivitiesContextModel {
     activities: Activity[];
     professors: Persona[];
     alumnes: Persona[];
+    jwt: string;
     ObtenirPersones: (professor: boolean) => void;
     addActivity: (title: string, description: string, activityType: ActivityType) => void;
     completeActivity: (activityId: string) => void;
+    Login: (email: string, password: string) => void;
+    Registrar: (nom: string, cognom: string, email: string, password: string) => void;
 }
 
 const ActivitiesContext = React.createContext<ActivitiesContextModel>({
     activities: [],
     professors: [],
     alumnes: [],
+    jwt: '',
     addActivity: () => {},
     completeActivity: () => {},
-    ObtenirPersones: () => {}
+    ObtenirPersones: () => {},
+    Login: () => {},
+    Registrar: () => {}
 });
 
 export default ActivitiesContext;

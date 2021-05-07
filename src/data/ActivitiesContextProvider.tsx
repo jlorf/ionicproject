@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import $ from 'jquery';
-import ActivitiesContext, { Activity, ActivitiesContextModel, ActivityType, Persona } from './activities-context';
+import * as $ from 'jquery'
+import ActivitiesContext, { Activity, ActivitiesContextModel, ActivityType, Persona, LoginReturn } from './activities-context';
 
 const ActivitiesContextProvider: React.FC = (props) => {
 
@@ -41,7 +41,7 @@ const ActivitiesContextProvider: React.FC = (props) => {
             url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
         })
             .done(function(res) {
-                $.each(res.records, function( i, item ) {
+                $.each(res.records, function(i, item : Persona) {
                     persones.push({
                         codi: item.codi,
                         Nom: item.Nom,
@@ -59,6 +59,53 @@ const ActivitiesContextProvider: React.FC = (props) => {
                         return persones;
                       });
                   }
+            });
+    };
+
+    const Login = (email: string, password: string) => {
+        $.ajax({
+            method: "POST",
+            url: "http://192.168.2.212/ProjecteGit/JWT/login.php",
+            data: { email: email, password: password },
+            error: function (request, status, error) {
+                
+                presentAlert('Login', 'Error', request.responseText, ['Ok']);
+            }
+        })
+            .done(function(res: LoginReturn) {
+                if (res.jwt){
+                    presentAlert('Login', 'Correcte', res.message, ['Ok']);
+                    activitiesContext.jwt = res.jwt;
+                }
+            });
+    };
+
+    async function presentAlert(titol: string, subtitol: string, text: string, buttons: string[]) {
+        const alert = document.createElement('ion-alert');
+        alert.cssClass = 'my-custom-class';
+        alert.header = titol;
+        alert.subHeader = subtitol;
+        alert.message = text;
+        alert.buttons = buttons;
+      
+        document.body.appendChild(alert);
+        await alert.present();
+      
+        const { role } = await alert.onDidDismiss();
+        console.log('onDidDismiss resolved with role', role);
+      }
+      
+
+    const Registrar = (nom: string, cognom: string, email: string, password: string) => {
+        $.ajax({
+            method: "POST",
+            url: "http://192.168.2.212/ProjecteGit/JWT/create_user.php",
+            data: { firstname: nom, lastname: cognom, email: email, password: password }
+        })
+            .done(function(res: LoginReturn) {
+                if (res.jwt){
+
+                }
             });
     };
 
@@ -111,13 +158,18 @@ const ActivitiesContextProvider: React.FC = (props) => {
         });
     };
 
+    const jwt = '';
+
     const activitiesContext: ActivitiesContextModel = {
         activities,
         addActivity,
         completeActivity,
         alumnes,
         professors,
-        ObtenirPersones
+        ObtenirPersones,
+        jwt,
+        Login,
+        Registrar
     };
 
     return (

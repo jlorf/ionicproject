@@ -24,6 +24,7 @@ import './theme/variables.css';
 import AllActivities from './pages/AllActivities/AllActivities';
 import AddActivity from './pages/AddActivity/AddActivity';
 import Alumnes from './pages/Alumnes/Alumnes';
+import Login from './pages/Login/Login';
 import { bodyOutline, newspaperOutline } from 'ionicons/icons';
 import ActivitiesContextProvider from './data/ActivitiesContextProvider';
 
@@ -51,6 +52,12 @@ const App: React.FC = () => (
                             </IonItem>
                         </IonMenuToggle>
                         <IonMenuToggle>
+                            <IonItem routerLink="/login" routerDirection="none" lines="none">
+                                <IonIcon color="medium" slot="start" icon={bodyOutline}/>
+                                <IonLabel>Login</IonLabel>
+                            </IonItem>
+                        </IonMenuToggle>
+                        <IonMenuToggle>
                             <IonItem routerLink="/alumnes" routerDirection="none" lines="none">
                                 <IonIcon color="medium" slot="start" icon={bodyOutline}/>
                                 <IonLabel>Alumnes</IonLabel>
@@ -63,6 +70,7 @@ const App: React.FC = () => (
                 <IonRouterOutlet id="scheduleAppM1">
                     <Route path='/all-activities' component={AllActivities} exact />
                     <Route path='/add-activity' component={AddActivity} exact />
+                    <Route path='/login' component={Login} exact />
                     <Route path='/alumnes' component={Alumnes} exact />
                     <Redirect to='/all-activities' />
                 </IonRouterOutlet>

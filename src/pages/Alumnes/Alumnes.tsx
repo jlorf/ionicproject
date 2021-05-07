@@ -1,17 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonButtons, IonMenuButton, IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonButton, IonModal, IonIcon } from '@ionic/react';
-import ActivitiesContext, { Activity } from '../../data/activities-context';
-import CompleteModalActivity from '../../components/CompleteActivityModal';
-import { checkmarkOutline } from 'ionicons/icons';
+import ActivitiesContext, { Persona } from '../../data/activities-context';
 
 const Alumnes: React.FC = () => {
 
-    const [activityToComplete, setActivityToComplete] = useState<Activity>();
+    const [activityToComplete, setActivityToComplete] = useState<Persona>();
 
     const activitiesCtxt = useContext(ActivitiesContext);
 
-    const openCompleteModal = (activity: Activity) => {
-        setActivityToComplete(activity);
+    const openCompleteModal = (persona: Persona) => {
+        setActivityToComplete(persona);
     };
 
     const closeModal = () => {
@@ -20,9 +18,9 @@ const Alumnes: React.FC = () => {
 
     return (
         <React.Fragment>
-            <IonModal isOpen={!!activityToComplete}>
-                <CompleteModalActivity activity={activityToComplete as Activity} dismissModal={closeModal}/>
-            </IonModal>
+            {/* <IonModal isOpen={!!activityToComplete}>
+                <CompleteModalActivity persona={activityToComplete as Persona} dismissModal={closeModal}/>
+            </IonModal> */}
 
             <IonPage>
                 <IonHeader>
@@ -35,27 +33,28 @@ const Alumnes: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        { activitiesCtxt.activities.map(activity => (
-                        <IonRow key={activity.id}>
+                        { activitiesCtxt.ObtenirPersones(false) }
+                        { activitiesCtxt.alumnes.map(alumne => (
+                        <IonRow key={alumne.codi.toString()}>
                             <IonCol className="ion-text-center">
                                 <IonCard>
-                                    <img src={activity.imageUrl} alt="Activity"/>
+                                    {/* <img src={alumne.imageUrl} alt="alumne"/> */}
                                     <IonCardHeader>
-                                        <IonCardSubtitle>{activity.hour}</IonCardSubtitle>
-                                        <IonCardTitle>{activity.title}</IonCardTitle>
+                                        <IonCardSubtitle>{alumne.Nom}</IonCardSubtitle>
+                                        <IonCardTitle>{alumne.Cognoms}</IonCardTitle>
                                     </IonCardHeader>
                                     <IonCardContent>
-                                        <p>{activity.description}</p>
+                                        <p>{alumne.professor}</p>
                                         <IonItem lines="none">
-                                            { !activity.isCompleted ?
+                                            {/* { !alumne.professor ?
                                             <IonButton
                                                 fill="clear"
-                                                onClick={() => openCompleteModal(activity)}>
-                                                Complete Activity
+                                                onClick={() => openCompleteModal(persona)}>
+                                                Complete alumne
                                             </IonButton>
                                             :
                                             <IonIcon color="success" icon={checkmarkOutline} />
-                                            }
+                                            } */}
                                         </IonItem>
                                     </IonCardContent>
                                 </IonCard>
