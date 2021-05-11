@@ -19,6 +19,12 @@ export interface Persona {
     professor: boolean;
 }
 
+export interface Modul {
+    codi: BigInteger;
+    Nom: string;
+    Abrev: string;
+}
+
 export interface LoginReturn {
     message: string;
     jwt: string;
@@ -28,8 +34,10 @@ export interface ContextModel {
     activities: Activity[];
     professors: Persona[];
     alumnes: Persona[];
+    moduls: Modul[];
     jwt: string;
     ObtenirPersones: (professor: boolean) => void;
+    ObtenirModuls: () => void;
     addActivity: (title: string, description: string, activityType: ActivityType) => void;
     completeActivity: (activityId: string) => void;
     Login: (email: string, password: string) => void;
@@ -41,10 +49,12 @@ const Context = React.createContext<ContextModel>({
     activities: [],
     professors: [],
     alumnes: [],
+    moduls: [],
     jwt: '',
     addActivity: () => {},
     completeActivity: () => {},
     ObtenirPersones: () => {},
+    ObtenirModuls: () => {},
     Login: () => {},
     Registrar: () => {},
     presentAlert: () => {}

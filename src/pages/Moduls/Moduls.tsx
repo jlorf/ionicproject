@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonButtons, IonMenuButton, IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonButton, IonModal, IonIcon } from '@ionic/react';
 import Context, { Persona } from '../../data/context';
 
-const Alumnes: React.FC = () => {
+const Moduls: React.FC = () => {
 
     const [activityToComplete, setActivityToComplete] = useState<Persona>();
 
@@ -16,7 +16,7 @@ const Alumnes: React.FC = () => {
         setActivityToComplete(undefined);
     };
 
-    if((context.alumnes?.length ?? 0) == 0) context.ObtenirPersones(false);
+    if((context.moduls?.length ?? 0) == 0) context.ObtenirModuls();
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>
@@ -34,22 +34,22 @@ const Alumnes: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
-                        { context.alumnes.map(alumne => (
-                        <IonRow key={alumne.codi.toString()}>
+                        { context.moduls.map(modul => (
+                        <IonRow key={modul.codi.toString()}>
                             <IonCol className="ion-text-center">
                                 <IonCard>
-                                    {/* <img src={alumne.imageUrl} alt="alumne"/> */}
+                                    {/* <img src={modul.imageUrl} alt="modul"/> */}
                                     <IonCardHeader>
-                                        <IonCardSubtitle>{alumne.Nom}</IonCardSubtitle>
-                                        <IonCardTitle>{alumne.Cognoms}</IonCardTitle>
+                                        <IonCardSubtitle>{modul.Nom}</IonCardSubtitle>
+                                        <IonCardTitle>{modul.Abrev}</IonCardTitle>
                                     </IonCardHeader>
                                     <IonCardContent>
                                         <IonItem lines="none">
-                                            {/* { !alumne.professor ?
+                                            {/* { !modul.professor ?
                                             <IonButton
                                                 fill="clear"
                                                 onClick={() => openCompleteModal(persona)}>
-                                                Complete alumne
+                                                Complete modul
                                             </IonButton>
                                             :
                                             <IonIcon color="success" icon={checkmarkOutline} />
@@ -68,4 +68,4 @@ const Alumnes: React.FC = () => {
     );
 };
 
-export default Alumnes;
+export default Moduls;

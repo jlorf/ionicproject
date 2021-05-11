@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import * as $ from 'jquery'
-import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn } from './context';
+import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn, Modul } from './context';
 
 const ContextProvider: React.FC = (props) => {
 
@@ -42,6 +42,7 @@ const ContextProvider: React.FC = (props) => {
             data: {jwt: jwt}
         })
             .done(function(res) {
+                //console.log(jwt);
                 $.each(res.records, function(i, item : Persona) {
                     persones.push({
                         codi: item.codi,
@@ -63,6 +64,28 @@ const ContextProvider: React.FC = (props) => {
             });
     };
 
+    const ObtenirModuls = () => {
+        var moduls = Array<Modul>();
+        $.ajax({
+            method: "GET",
+            url: "http://192.168.2.212/ProjecteGit/Api/modul/api.php",
+            data: {jwt: jwt}
+        })
+            .done(function(res) {
+                //console.log(jwt);
+                $.each(res.records, function(i, item : Modul) {
+                    moduls.push({
+                        codi: item.codi,
+                        Nom: item.Nom,
+                        Abrev: item.Abrev
+                    })
+                  });
+                setModuls(currModuls => {
+                    return moduls;
+                });
+            });
+    };
+
     const Login = (email: string, password: string) => {
         $.ajax({
             method: "POST",
@@ -76,7 +99,8 @@ const ContextProvider: React.FC = (props) => {
             .done(function(res: LoginReturn) {
                 if (res.jwt){
                     presentAlert('Login', 'Correcte', res.message, ['Ok']);
-                    activitiesContext.jwt = res.jwt;
+                    //activitiesContext.jwt = res.jwt;
+                    setJWT(res.jwt);
                 }
             });
     };
@@ -113,6 +137,8 @@ const ContextProvider: React.FC = (props) => {
     const [professors, setProfessors] = useState<Persona[]>([]);
 
     const [alumnes, setAlumnes] = useState<Persona[]>([]);
+
+    const [moduls, setModuls] = useState<Modul[]>([]);
 
     const addActivity = (title: string, description: string, activityType: ActivityType) => {
         let imageUrl = '';
@@ -159,7 +185,7 @@ const ContextProvider: React.FC = (props) => {
         });
     };
 
-    const jwt = '';
+    const [jwt, setJWT] = useState<string>('');
 
     const activitiesContext: ContextModel = {
         activities,
@@ -171,7 +197,9 @@ const ContextProvider: React.FC = (props) => {
         jwt,
         Login,
         Registrar,
-        presentAlert
+        presentAlert,
+        moduls,
+        ObtenirModuls
     };
 
     return (
