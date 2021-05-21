@@ -224,7 +224,7 @@ const ContextProvider: React.FC = (props) => {
         professors,
         ObtenirPersones,
         jwt: globalThis.localStorage.getItem("JWT") ?? '',
-        urlapi: 'http://192.168.2.212/ProjecteGit',
+        urlapi: 'http://192.168.2.212/ProjecteGit2',
         logged: false,
         Login,
         Registrar,

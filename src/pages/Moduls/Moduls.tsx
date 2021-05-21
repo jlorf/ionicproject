@@ -23,6 +23,7 @@ const Moduls: React.FC = () => {
 
       var btnClick2 = () => {
         context.presentAlert("Afegir", "","Afegir", ["OK"]);
+        window.location.replace("afegir-modul");
       };
 
     if((context.moduls?.length ?? 0) == 0) context.ObtenirModuls(context);

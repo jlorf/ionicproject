@@ -26,6 +26,7 @@ import AddActivity from './pages/AddActivity/AddActivity';
 import Alumnes from './pages/Alumnes/Alumnes';
 import Login from './pages/Login/Login';
 import Moduls from './pages/Moduls/Moduls';
+import AddModul from './pages/AddModul/AddModul';
 import Registrar from './pages/Registrar/Registrar';
 import { bodyOutline, newspaperOutline } from 'ionicons/icons';
 import ContextProvider from './data/ContextProvider';
@@ -71,6 +72,7 @@ const App: React.FC = () => {
                     <Route path='/logout' component={Login} exact />
                     <Route path='/alumnes' component={Alumnes} exact />
                     <Route path='/moduls' component={Moduls} exact />
+                    <Route path='/afegir-modul' component={AddModul} exact />
                     <Redirect to={context.logged ? '/moduls' : '/login'} />
                 </IonRouterOutlet>
             </ContextProvider>

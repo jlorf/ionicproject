@@ -67,7 +67,7 @@ const Context = React.createContext<ContextModel>({
     moduls: [],
     jwt: globalThis.localStorage.getItem('JWT') ?? '',
     logged: false,
-    urlapi: 'http://192.168.2.212/ProjecteGit',
+    urlapi: 'http://192.168.2.212/ProjecteGit2',
     addActivity: () => {},
     completeActivity: () => {},
     ObtenirPersones: () => {},
