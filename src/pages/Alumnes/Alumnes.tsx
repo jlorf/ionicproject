@@ -37,25 +37,12 @@ const Alumnes: React.FC = () => {
                         { context.alumnes.map(alumne => (
                         <IonRow key={alumne.codi.toString()}>
                             <IonCol className="ion-text-center">
-                                <IonCard>
+                                <IonCard color="warning">
                                     {/* <img src={alumne.imageUrl} alt="alumne"/> */}
                                     <IonCardHeader>
                                         <IonCardSubtitle>{alumne.Nom}</IonCardSubtitle>
                                         <IonCardTitle>{alumne.Cognoms}</IonCardTitle>
                                     </IonCardHeader>
-                                    <IonCardContent>
-                                        <IonItem lines="none">
-                                            {/* { !alumne.professor ?
-                                            <IonButton
-                                                fill="clear"
-                                                onClick={() => openCompleteModal(persona)}>
-                                                Complete alumne
-                                            </IonButton>
-                                            :
-                                            <IonIcon color="success" icon={checkmarkOutline} />
-                                            } */}
-                                        </IonItem>
-                                    </IonCardContent>
                                 </IonCard>
                             </IonCol>
                         </IonRow>
