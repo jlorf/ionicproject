@@ -46,50 +46,24 @@ const Moduls: React.FC = () => {
                     <IonGrid>
                     <IonRow key="-1">
                             <IonCol className="ion-text-center">
-                                <IonCard onClick={() => btnClick2() }>
+                                <IonCard onClick={() => btnClick2() } color="success">
                                     {/* <img src={modul.imageUrl} alt="modul"/> */}
                                     <IonCardHeader>
                                         <IonCardSubtitle>Afegir modul</IonCardSubtitle>
                                         <IonCardTitle><IonIcon icon={addCircleOutline}/></IonCardTitle>
                                     </IonCardHeader>
-                                    <IonCardContent>
-                                        <IonItem lines="none">
-                                            {/* { !modul.professor ?
-                                            <IonButton
-                                                fill="clear"
-                                                onClick={() => openCompleteModal(persona)}>
-                                                Complete modul
-                                            </IonButton>
-                                            :
-                                            <IonIcon color="success" icon={checkmarkOutline} />
-                                            } */}
-                                        </IonItem>
-                                    </IonCardContent>
                                 </IonCard>
                             </IonCol>
                         </IonRow>
                         { context.moduls.map(modul => (
                         <IonRow key={modul.codi.toString()}>
                             <IonCol className="ion-text-center">
-                                <IonCard onClick={() => btnClick(modul) }>
+                                <IonCard onClick={() => btnClick(modul) } color="warning">
                                     {/* <img src={modul.imageUrl} alt="modul"/> */}
                                     <IonCardHeader>
                                         <IonCardSubtitle>{modul.Nom}</IonCardSubtitle>
                                         <IonCardTitle>{modul.Abrev}</IonCardTitle>
                                     </IonCardHeader>
-                                    <IonCardContent>
-                                        <IonItem lines="none">
-                                            {/* { !modul.professor ?
-                                            <IonButton
-                                                fill="clear"
-                                                onClick={() => openCompleteModal(persona)}>
-                                                Complete modul
-                                            </IonButton>
-                                            :
-                                            <IonIcon color="success" icon={checkmarkOutline} />
-                                            } */}
-                                        </IonItem>
-                                    </IonCardContent>
                                 </IonCard>
                             </IonCol>
                         </IonRow>
