@@ -48,6 +48,7 @@ export interface ContextModel {
     alumnes: Persona[];
     moduls: Modul[];
     jwt: string;
+    urlapi: string;
     logged: boolean;
     ObtenirPersones: (ctx: ContextModel, professor: boolean) => void;
     ObtenirModuls: (ctx: ContextModel) => void;
@@ -66,6 +67,7 @@ const Context = React.createContext<ContextModel>({
     moduls: [],
     jwt: globalThis.localStorage.getItem('JWT') ?? '',
     logged: false,
+    urlapi: 'http://192.168.2.212/ProjecteGit',
     addActivity: () => {},
     completeActivity: () => {},
     ObtenirPersones: () => {},
@@ -78,7 +80,7 @@ const Context = React.createContext<ContextModel>({
         ctx.jwt = (item ?? '');
         var res = $.ajax({
             method: "POST",
-            url: "http://192.168.2.212/ProjecteGit/JWT/validate_token.php",
+            url: ctx.urlapi + "/JWT/validate_token.php",
             data: { jwt: ctx.jwt },
             async: false
         }).responseText;

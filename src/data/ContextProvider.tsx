@@ -38,7 +38,7 @@ const ContextProvider: React.FC = (props) => {
         var persones = Array<Persona>();
         $.ajax({
             method: "GET",
-            url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
+            url: ctx.urlapi + "/Api/persona/json.php?professor=" + (professor ? 1 : 0),
             data: {jwt: ctx.jwt}
         })
             .done(function(res) {
@@ -64,7 +64,7 @@ const ContextProvider: React.FC = (props) => {
         var moduls = Array<Modul>();
         $.ajax({
             method: "GET",
-            url: "http://192.168.2.212/ProjecteGit/Api/modul/api.php",
+            url: ctx.urlapi + "/Api/modul/api.php",
             data: {jwt: ctx.jwt}
         })
             .done(function(res) {
@@ -83,7 +83,7 @@ const ContextProvider: React.FC = (props) => {
     const Login = (ctx: ContextModel, email: string, password: string) => {
         $.ajax({
             method: "POST",
-            url: "http://192.168.2.212/ProjecteGit/JWT/login.php",
+            url: ctx.urlapi + "/JWT/login.php",
             data: { email: email, password: password },
             error: function (request, status, error) {
                 setLogged(false);
@@ -121,7 +121,7 @@ const ContextProvider: React.FC = (props) => {
     const Registrar = (ctx: ContextModel, nom: string, cognom: string, email: string, password: string) => {
         $.ajax({
             method: "POST",
-            url: "http://192.168.2.212/ProjecteGit/JWT/create_user.php",
+            url: ctx.urlapi + "/JWT/create_user.php",
             data: { firstname: nom, lastname: cognom, email: email, password: password },
             error: function (request, status, error) {
                 presentAlert('Registre', 'Error', request.responseText, ['Ok']);
@@ -224,6 +224,7 @@ const ContextProvider: React.FC = (props) => {
         professors,
         ObtenirPersones,
         jwt: globalThis.localStorage.getItem("JWT") ?? '',
+        urlapi: 'http://192.168.2.212/ProjecteGit',
         logged: false,
         Login,
         Registrar,
