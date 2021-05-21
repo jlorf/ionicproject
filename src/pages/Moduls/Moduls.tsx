@@ -16,7 +16,7 @@ const Moduls: React.FC = () => {
         setActivityToComplete(undefined);
     };
 
-    if((context.moduls?.length ?? 0) == 0) context.ObtenirModuls();
+    if((context.moduls?.length ?? 0) == 0) context.ObtenirModuls(context);
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>
@@ -29,7 +29,7 @@ const Moduls: React.FC = () => {
                         <IonButtons slot="start">
                             <IonMenuButton />
                         </IonButtons>
-                        <IonTitle>Alumnes</IonTitle>
+                        <IonTitle>Moduls</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>

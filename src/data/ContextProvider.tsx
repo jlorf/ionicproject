@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import * as $ from 'jquery'
-import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn, Modul } from './context';
+import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn, Modul, Validar } from './context';
 
 const ContextProvider: React.FC = (props) => {
 
@@ -34,12 +34,12 @@ const ContextProvider: React.FC = (props) => {
         }
     ]);
 
-    const ObtenirPersones = (professor: boolean) => {
+    const ObtenirPersones = (ctx: ContextModel, professor: boolean) => {
         var persones = Array<Persona>();
         $.ajax({
             method: "GET",
             url: "http://192.168.2.212/ProjecteGit/Api/persona/json.php?professor=" + (professor ? 1 : 0),
-            data: {jwt: jwt}
+            data: {jwt: ctx.jwt}
         })
             .done(function(res) {
                 //console.log(jwt);
@@ -53,23 +53,19 @@ const ContextProvider: React.FC = (props) => {
                   });
                   if (professor)
                   {
-                    setProfessors(currProfessors => {
-                        return persones;
-                    });
+                    ctx.professors = persones;
                   } else {
-                    setAlumnes(currProfessors => {
-                        return persones;
-                      });
+                    ctx.alumnes = persones;
                   }
             });
     };
 
-    const ObtenirModuls = () => {
+    const ObtenirModuls = (ctx: ContextModel) => {
         var moduls = Array<Modul>();
         $.ajax({
             method: "GET",
             url: "http://192.168.2.212/ProjecteGit/Api/modul/api.php",
-            data: {jwt: jwt}
+            data: {jwt: ctx.jwt}
         })
             .done(function(res) {
                 //console.log(jwt);
@@ -80,19 +76,17 @@ const ContextProvider: React.FC = (props) => {
                         Abrev: item.Abrev
                     })
                   });
-                setModuls(currModuls => {
-                    return moduls;
-                });
+                ctx.moduls = moduls;
             });
     };
 
-    const Login = (email: string, password: string) => {
+    const Login = (ctx: ContextModel, email: string, password: string) => {
         $.ajax({
             method: "POST",
             url: "http://192.168.2.212/ProjecteGit/JWT/login.php",
             data: { email: email, password: password },
             error: function (request, status, error) {
-                
+                setLogged(false);
                 presentAlert('Login', 'Error', request.responseText, ['Ok']);
             }
         })
@@ -100,7 +94,10 @@ const ContextProvider: React.FC = (props) => {
                 if (res.jwt){
                     presentAlert('Login', 'Correcte', res.message, ['Ok']);
                     //activitiesContext.jwt = res.jwt;
-                    setJWT(res.jwt);
+                    ctx.logged = true;
+                    ctx.jwt = res.jwt;
+                    globalThis.localStorage.setItem('JWT', res.jwt);
+                    window.location.replace('moduls');
                 }
             });
     };
@@ -121,16 +118,18 @@ const ContextProvider: React.FC = (props) => {
       }
       
 
-    const Registrar = (nom: string, cognom: string, email: string, password: string) => {
+    const Registrar = (ctx: ContextModel, nom: string, cognom: string, email: string, password: string) => {
         $.ajax({
             method: "POST",
             url: "http://192.168.2.212/ProjecteGit/JWT/create_user.php",
-            data: { firstname: nom, lastname: cognom, email: email, password: password }
+            data: { firstname: nom, lastname: cognom, email: email, password: password },
+            error: function (request, status, error) {
+                presentAlert('Registre', 'Error', request.responseText, ['Ok']);
+            }
         })
             .done(function(res: LoginReturn) {
-                if (res.jwt){
-
-                }
+                ctx.presentAlert("Registre", "", res.message, ["OK"]);
+                window.location.replace('login');
             });
     };
 
@@ -185,7 +184,37 @@ const ContextProvider: React.FC = (props) => {
         });
     };
 
+
+
+    const ComprovarJWT = () => {
+        var item = globalThis.localStorage.getItem("JWT");
+        setJWT(item ?? '');
+        var res = $.ajax({
+            method: "POST",
+            url: "http://192.168.2.212/ProjecteGit/JWT/validate_token.php",
+            data: { jwt: jwt },
+            async: false
+        }).responseText;
+        debugger;
+        if (res != null && res != undefined){
+        var resJSON = JSON.parse(res);
+            // .done(function(res: Validar) {
+            if (resJSON?.message == "Access granted." && resJSON?.data != null){
+                //activitiesContext.jwt = res.jwt;
+                setLogged(true);
+                setJWT(item ?? '');
+            } else {
+                setLogged(false);
+            }
+        } else {
+            setLogged(false);
+        }
+        return logged;
+    };
+
     const [jwt, setJWT] = useState<string>('');
+
+    const [logged, setLogged] = useState<boolean>(false);
 
     const activitiesContext: ContextModel = {
         activities,
@@ -194,12 +223,14 @@ const ContextProvider: React.FC = (props) => {
         alumnes,
         professors,
         ObtenirPersones,
-        jwt,
+        jwt: globalThis.localStorage.getItem("JWT") ?? '',
+        logged: false,
         Login,
         Registrar,
         presentAlert,
         moduls,
-        ObtenirModuls
+        ObtenirModuls,
+        ComprovarJWT
     };
 
     return (

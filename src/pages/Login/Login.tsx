@@ -8,6 +8,11 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState<string>();
   const context = useContext(Context);
 
+  if (window.location.href.indexOf("logout") > -1){
+    globalThis.localStorage.clear();
+    window.location.replace('login');
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -26,7 +31,7 @@ export const Login: React.FC = () => {
             <IonInput value={password} onIonChange={e => setPassword(e.detail.value!)} clearInput type="password"></IonInput>
           </IonItem>
         </IonList>
-        <IonButton expand="block" onClick={() => context.Login(email ?? '', password ?? '')}>Login</IonButton>
+        <IonButton expand="block" onClick={() => context.Login(context, email ?? '', password ?? '')}>Login</IonButton>
       </IonContent>
     </IonPage>
   );

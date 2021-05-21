@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonIcon, IonLabel, IonMenuToggle } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -25,10 +25,20 @@ import AllActivities from './pages/AllActivities/AllActivities';
 import AddActivity from './pages/AddActivity/AddActivity';
 import Alumnes from './pages/Alumnes/Alumnes';
 import Login from './pages/Login/Login';
+import Moduls from './pages/Moduls/Moduls';
+import Registrar from './pages/Registrar/Registrar';
 import { bodyOutline, newspaperOutline } from 'ionicons/icons';
 import ContextProvider from './data/ContextProvider';
+import Context from './data/context';
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+
+    const context = useContext(Context);
+    context.ComprovarJWT(context);
+
+    var array = context.logged ? [{ id: "/alumnes", comp: "Alumnes"}, { id: "/moduls", comp: "Moduls"}, { id: "/logout", comp: "Logout"}] : [{ id: "/login", comp: "Login"}, { id: "/registrar", comp: "Registrar"}];
+
+    return (
     <IonApp>
         <IonReactRouter>
             <IonMenu contentId='scheduleAppM1'>
@@ -39,30 +49,16 @@ const App: React.FC = () => (
                 </IonHeader>
                 <IonContent>
                     <IonList>
-                        <IonMenuToggle>
-                            <IonItem routerLink="/all-activities" routerDirection="none" lines="none">
-                                <IonIcon color="medium" slot="start" icon={bodyOutline}/>
-                                <IonLabel>All activities</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
-                        <IonMenuToggle>
-                            <IonItem routerLink="/add-activity" routerDirection="none" lines="none">
-                                <IonIcon color="medium" slot="start" icon={newspaperOutline}/>
-                                <IonLabel>Add activity</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
-                        <IonMenuToggle>
-                            <IonItem routerLink="/login" routerDirection="none" lines="none">
-                                <IonIcon color="medium" slot="start" icon={bodyOutline}/>
-                                <IonLabel>Login</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
-                        <IonMenuToggle>
-                            <IonItem routerLink="/alumnes" routerDirection="none" lines="none">
-                                <IonIcon color="medium" slot="start" icon={bodyOutline}/>
-                                <IonLabel>Alumnes</IonLabel>
-                            </IonItem>
-                        </IonMenuToggle>
+                        {
+                            array.map(item => (
+                                <IonMenuToggle>
+                                    <IonItem routerLink={item.id} routerDirection="none" lines="none">
+                                        <IonIcon color="medium" slot="start" icon={bodyOutline}/>
+                                        <IonLabel>{item.comp}</IonLabel>
+                                    </IonItem>
+                                </IonMenuToggle>
+                            ))
+                        }
                     </IonList>
                 </IonContent>
             </IonMenu>
@@ -71,12 +67,15 @@ const App: React.FC = () => (
                     <Route path='/all-activities' component={AllActivities} exact />
                     <Route path='/add-activity' component={AddActivity} exact />
                     <Route path='/login' component={Login} exact />
+                    <Route path='/registrar' component={Registrar} exact />
+                    <Route path='/logout' component={Login} exact />
                     <Route path='/alumnes' component={Alumnes} exact />
-                    <Redirect to='/all-activities' />
+                    <Route path='/moduls' component={Moduls} exact />
+                    <Redirect to={context.logged ? '/moduls' : '/login'} />
                 </IonRouterOutlet>
             </ContextProvider>
         </IonReactRouter>
     </IonApp>
-);
+)};
 
 export default App;

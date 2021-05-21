@@ -1,4 +1,5 @@
 import React from 'react';
+import * as $ from 'jquery'
 
 export type ActivityType = 'rest' | 'work' | 'hobby';
 
@@ -30,19 +31,32 @@ export interface LoginReturn {
     jwt: string;
 }
 
+
+export interface Validar {
+    message: string;
+    data: {
+        id: string,
+        firstname: string,
+        lastname: string,
+        email: string
+    };
+}
+
 export interface ContextModel {
     activities: Activity[];
     professors: Persona[];
     alumnes: Persona[];
     moduls: Modul[];
     jwt: string;
-    ObtenirPersones: (professor: boolean) => void;
-    ObtenirModuls: () => void;
+    logged: boolean;
+    ObtenirPersones: (ctx: ContextModel, professor: boolean) => void;
+    ObtenirModuls: (ctx: ContextModel) => void;
     addActivity: (title: string, description: string, activityType: ActivityType) => void;
     completeActivity: (activityId: string) => void;
-    Login: (email: string, password: string) => void;
-    Registrar: (nom: string, cognom: string, email: string, password: string) => void;
+    Login: (ctx: ContextModel, email: string, password: string) => void;
+    Registrar: (ctx: ContextModel, nom: string, cognom: string, email: string, password: string) => void;
     presentAlert: (titol: string, subtitol: string, text: string, buttons: string[]) => void;
+    ComprovarJWT: (ctx: ContextModel) => boolean;
 }
 
 const Context = React.createContext<ContextModel>({
@@ -50,14 +64,40 @@ const Context = React.createContext<ContextModel>({
     professors: [],
     alumnes: [],
     moduls: [],
-    jwt: '',
+    jwt: globalThis.localStorage.getItem('JWT') ?? '',
+    logged: false,
     addActivity: () => {},
     completeActivity: () => {},
     ObtenirPersones: () => {},
     ObtenirModuls: () => {},
     Login: () => {},
     Registrar: () => {},
-    presentAlert: () => {}
+    presentAlert: () => {},
+    ComprovarJWT: (ctx: ContextModel) => {
+        var item = globalThis.localStorage.getItem("JWT");
+        ctx.jwt = (item ?? '');
+        var res = $.ajax({
+            method: "POST",
+            url: "http://192.168.2.212/ProjecteGit/JWT/validate_token.php",
+            data: { jwt: ctx.jwt },
+            async: false
+        }).responseText;
+        debugger;
+        if (res != null && res != undefined){
+        var resJSON = JSON.parse(res);
+            // .done(function(res: Validar) {
+            if (resJSON?.message == "Access granted." && resJSON?.data != null){
+                //activitiesContext.jwt = res.jwt;
+                ctx.logged = true;
+                ctx.jwt = (item ?? '');
+            } else {
+                ctx.logged = false;
+            }
+        } else {
+            ctx.logged = false;
+        }
+        return ctx.logged;
+    }
 });
 
 export default Context;

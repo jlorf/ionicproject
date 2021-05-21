@@ -16,7 +16,7 @@ const Alumnes: React.FC = () => {
         setActivityToComplete(undefined);
     };
 
-    if((context.alumnes?.length ?? 0) == 0) context.ObtenirPersones(false);
+    if((context.alumnes?.length ?? 0) == 0) context.ObtenirPersones(context, false);
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>
