@@ -16,7 +16,7 @@ export const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="dark">
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>

@@ -44,7 +44,7 @@ const App: React.FC = () => {
         <IonReactRouter>
             <IonMenu contentId='scheduleAppM1'>
                 <IonHeader>
-                    <IonToolbar>
+                    <IonToolbar color="dark">
                         <IonTitle>Projecte</IonTitle>
                     </IonToolbar>
                 </IonHeader>
@@ -53,7 +53,7 @@ const App: React.FC = () => {
                         {
                             array.map(item => (
                                 <IonMenuToggle>
-                                    <IonItem routerLink={item.id} routerDirection="none" lines="none">
+                                    <IonItem routerLink={item.id} routerDirection="none" lines="none" color="dark">
                                         <IonIcon color="medium" slot="start" icon={bodyOutline}/>
                                         <IonLabel>{item.comp}</IonLabel>
                                     </IonItem>
@@ -64,7 +64,7 @@ const App: React.FC = () => {
                 </IonContent>
             </IonMenu>
             <ContextProvider>
-                <IonRouterOutlet id="scheduleAppM1">
+                <IonRouterOutlet id="scheduleAppM1" >
                     <Route path='/all-activities' component={AllActivities} exact />
                     <Route path='/add-activity' component={AddActivity} exact />
                     <Route path='/login' component={Login} exact />

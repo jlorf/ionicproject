@@ -35,7 +35,7 @@ const Moduls: React.FC = () => {
 
             <IonPage>
                 <IonHeader>
-                    <IonToolbar>
+                    <IonToolbar color="dark">
                         <IonButtons slot="start">
                             <IonMenuButton />
                         </IonButtons>

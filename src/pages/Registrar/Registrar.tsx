@@ -20,7 +20,7 @@ export const Registrar: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="dark">
           <IonTitle>Registrar</IonTitle>
         </IonToolbar>
       </IonHeader>

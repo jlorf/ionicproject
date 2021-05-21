@@ -25,7 +25,7 @@ const Alumnes: React.FC = () => {
 
             <IonPage>
                 <IonHeader>
-                    <IonToolbar>
+                    <IonToolbar color="dark">
                         <IonButtons slot="start">
                             <IonMenuButton />
                         </IonButtons>
