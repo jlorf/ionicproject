@@ -18,15 +18,23 @@ const Moduls: React.FC = () => {
     };
 
     var btnClick = (modul: Modul) => {
-        context.presentAlert(modul.Nom, modul.Abrev, modul.codi.toString(), ["OK"]);
+        //context.presentAlert(modul.Nom, modul.Abrev, modul.codi.toString(), ["OK"]);
+        //window.location.replace('mod-modul?modul=' + modul.codi + "&nom=" + modul.Nom + "&abrev=" + modul.Abrev);
+        globalThis.localStorage.setItem("modul", JSON.stringify(modul));
+        window.location.replace('mod-modul');
       };
 
       var btnClick2 = () => {
-        context.presentAlert("Afegir", "","Afegir", ["OK"]);
+        //context.presentAlert("Afegir", "","Afegir", ["OK"]);
         window.location.replace("afegir-modul");
       };
 
-    if((context.moduls?.length ?? 0) == 0) context.ObtenirModuls(context);
+    var item = globalThis.localStorage.getItem("JWT");
+    context.jwt = (item ?? '');
+
+    if((context?.moduls?.length ?? 0) == 0) {
+        context.ObtenirModuls(context);
+    }
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>

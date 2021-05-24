@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonButtons, IonMenuButton, IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonButton, IonModal, IonIcon } from '@ionic/react';
 import Context, { Persona } from '../../data/context';
+import { addCircleOutline } from 'ionicons/icons';
 
 const Alumnes: React.FC = () => {
 
@@ -16,7 +17,15 @@ const Alumnes: React.FC = () => {
         setActivityToComplete(undefined);
     };
 
-    if((context.alumnes?.length ?? 0) == 0) context.ObtenirPersones(context, false);
+    var item = globalThis.localStorage.getItem("JWT");
+    context.jwt = (item ?? '');
+
+    var btnClick2 = () => {
+        //context.presentAlert("Afegir", "","Afegir", ["OK"]);
+        window.location.replace("afegir-alumne");
+      };
+
+    if((context?.alumnes?.length ?? 0) == 0) context.ObtenirPersones(context, false);
     return (
         <React.Fragment>
             {/* <IonModal isOpen={!!activityToComplete}>
@@ -34,6 +43,17 @@ const Alumnes: React.FC = () => {
                 </IonHeader>
                 <IonContent>
                     <IonGrid>
+                    <IonRow key="-1">
+                            <IonCol className="ion-text-center">
+                                <IonCard onClick={() => btnClick2() } color="success">
+                                    {/* <img src={modul.imageUrl} alt="modul"/> */}
+                                    <IonCardHeader>
+                                        <IonCardSubtitle>Afegir alumne</IonCardSubtitle>
+                                        <IonCardTitle><IonIcon icon={addCircleOutline}/></IonCardTitle>
+                                    </IonCardHeader>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
                         { context.alumnes.map(alumne => (
                         <IonRow key={alumne.codi.toString()}>
                             <IonCol className="ion-text-center">

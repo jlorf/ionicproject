@@ -35,6 +35,8 @@ const ContextProvider: React.FC = (props) => {
     ]);
 
     const ObtenirPersones = (ctx: ContextModel, professor: boolean) => {
+        var item = globalThis.localStorage.getItem("JWT");
+        ctx.jwt = (item ?? '');
         var persones = Array<Persona>();
         $.ajax({
             method: "GET",
@@ -61,6 +63,8 @@ const ContextProvider: React.FC = (props) => {
     };
 
     const ObtenirModuls = (ctx: ContextModel) => {
+        var item = globalThis.localStorage.getItem("JWT");
+        ctx.jwt = (item ?? '');
         var moduls = Array<Modul>();
         $.ajax({
             method: "GET",
@@ -195,7 +199,6 @@ const ContextProvider: React.FC = (props) => {
             data: { jwt: jwt },
             async: false
         }).responseText;
-        debugger;
         if (res != null && res != undefined){
         var resJSON = JSON.parse(res);
             // .done(function(res: Validar) {

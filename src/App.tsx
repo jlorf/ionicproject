@@ -27,6 +27,8 @@ import Alumnes from './pages/Alumnes/Alumnes';
 import Login from './pages/Login/Login';
 import Moduls from './pages/Moduls/Moduls';
 import AddModul from './pages/AddModul/AddModul';
+import ModModul from './pages/ModModul/ModModul';
+import AddAlumne from './pages/AddAlumne/AddAlumne';
 import Registrar from './pages/Registrar/Registrar';
 import { bodyOutline, newspaperOutline } from 'ionicons/icons';
 import ContextProvider from './data/ContextProvider';
@@ -73,6 +75,8 @@ const App: React.FC = () => {
                     <Route path='/alumnes' component={Alumnes} exact />
                     <Route path='/moduls' component={Moduls} exact />
                     <Route path='/afegir-modul' component={AddModul} exact />
+                    <Route path='/mod-modul' component={ModModul} exact />
+                    <Route path='/afegir-alumne' component={AddAlumne} exact />
                     <Redirect to={context.logged ? '/moduls' : '/login'} />
                 </IonRouterOutlet>
             </ContextProvider>

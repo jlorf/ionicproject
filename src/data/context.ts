@@ -84,7 +84,6 @@ const Context = React.createContext<ContextModel>({
             data: { jwt: ctx.jwt },
             async: false
         }).responseText;
-        debugger;
         if (res != null && res != undefined){
         var resJSON = JSON.parse(res);
             // .done(function(res: Validar) {

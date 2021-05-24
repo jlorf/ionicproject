@@ -22,23 +22,42 @@ import Context, { ActivityType } from '../../data/context';
 import { useHistory } from 'react-router-dom';
 import * as $ from 'jquery'
 
-const AddModul: React.FC = () => {
+const ModModul: React.FC = () => {
 
     const history = useHistory();
     const context = useContext(Context);
 
     const [toastMsg, setToastMsg] = useState<string>('');
 
-    const nomInput = useRef<HTMLIonInputElement>(null);
-    const abrevInput = useRef<HTMLIonInputElement>(null);
+    //const nomInput = useRef<HTMLIonInputElement>(null);
+    //const abrevInput = useRef<HTMLIonInputElement>(null);
 
-    const addModul = async () => {
-        const nom = nomInput.current?.value as string;
-        const abrev = abrevInput.current?.value as string;
+    
+    let codi = "";
+    let nnom = '';
+    let aabrev = '';
+
+    var modul = globalThis.localStorage.getItem("modul");
+    
+    if (modul !== null && modul !== ''){
+        try {
+            var m = JSON.parse(modul);
+            codi = m.codi;
+            nnom = m.Nom;
+            aabrev = m.Abrev;
+        } catch{}
+    }
+
+    const [nom, setNom] = useState<string>(nnom);
+    const [abrev, setAbrev] = useState<string>(aabrev);
+
+    const modModul = async () => {
+        //const nom = nomInput.current?.value as string;
+        //const abrev = abrevInput.current?.value as string;
         $.ajax({
-            method: "POST",
+            method: "PUT",
             url: context.urlapi + "/Api/modul/api.php",
-            data: { jwt: context.jwt, Nom: nom, Abrev: abrev },
+            data: { jwt: context.jwt, codi: codi, Nom: nom, Abrev: abrev },
             error: function (request, status, error) {
                 context.presentAlert('Registre', 'Error', request.responseText, ['Ok']);
             }
@@ -60,7 +79,7 @@ const AddModul: React.FC = () => {
                         <IonButtons slot='start'>
                             <IonMenuButton />
                         </IonButtons>
-                        <IonTitle>Afegir Modul</IonTitle>
+                        <IonTitle>Modificar Modul</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
@@ -71,7 +90,7 @@ const AddModul: React.FC = () => {
                                     <IonLabel position='floating'>
                                         Nom
                                     </IonLabel>
-                                    <IonInput ref={nomInput} type='text'></IonInput>
+                                    <IonInput value={nom} onIonChange={e => setNom(e.detail.value!)} type='text'></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
@@ -81,14 +100,14 @@ const AddModul: React.FC = () => {
                                     <IonLabel position='floating'>
                                         Abreviació
                                     </IonLabel>
-                                    <IonInput ref={abrevInput} type='text'></IonInput>
+                                    <IonInput value={abrev} onIonChange={e => setAbrev(e.detail.value!)} type='text'></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
                         <IonRow>
                             <IonCol className='ion-text-center ion-margin-top'>
-                                <IonButton expand='block' fill='outline' onClick={addModul}>
-                                    Afegir Modul
+                                <IonButton expand='block' fill='outline' onClick={modModul}>
+                                    Modificar Modul
                                 </IonButton>
                             </IonCol>
                         </IonRow>
@@ -99,4 +118,4 @@ const AddModul: React.FC = () => {
     );
 };
 
-export default AddModul;
+export default ModModul;
