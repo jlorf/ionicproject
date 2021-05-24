@@ -56,8 +56,8 @@ const ModModul: React.FC = () => {
         //const abrev = abrevInput.current?.value as string;
         $.ajax({
             method: "PUT",
-            url: context.urlapi + "/Api/modul/api.php",
-            data: { jwt: context.jwt, codi: codi, Nom: nom, Abrev: abrev },
+            url: context.urlapi + "/Api/modul/api.php?jwt=" + context.jwt + "&codi=" + codi + "&Nom=" + nom + "&Abrev=" + abrev,
+            /*data: { jwt: context.jwt, codi: codi, Nom: nom, Abrev: abrev },*/
             error: function (request, status, error) {
                 context.presentAlert('Registre', 'Error', request.responseText, ['Ok']);
             }

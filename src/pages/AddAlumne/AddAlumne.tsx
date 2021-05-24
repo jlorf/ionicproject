@@ -38,7 +38,7 @@ const AddAlumne: React.FC = () => {
         $.ajax({
             method: "POST",
             url: context.urlapi + "/Api/persona/api.php",
-            data: { jwt: context.jwt, Nom: nom, Cognoms: abrev, professor: 0 },
+            data: { jwt: context.jwt, Nom: nom, Cognoms: abrev },
             error: function (request, status, error) {
                 context.presentAlert('Registre', 'Error', request.responseText, ['Ok']);
             }

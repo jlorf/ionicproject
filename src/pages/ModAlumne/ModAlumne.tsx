@@ -33,38 +33,38 @@ const ModAlumne: React.FC = () => {
     //const abrevInput = useRef<HTMLIonInputElement>(null);
 
     
-    let codi = "";
+    let ccodi = "";
     let nnom = '';
-    let aabrev = '';
+    let cognoms = '';
 
-    var modul = globalThis.localStorage.getItem("alumne");
+    var alumne = globalThis.localStorage.getItem("alumne");
     
-    if (modul !== null && modul !== ''){
+    if (alumne !== null && alumne !== ''){
         try {
-            var m = JSON.parse(modul);
-            codi = m.codi;
+            var m = JSON.parse(alumne);
+            ccodi = m.codi;
             nnom = m.Nom;
-            aabrev = m.Abrev;
+            cognoms = m.Cognoms;
         } catch{}
     }
 
     const [nom, setNom] = useState<string>(nnom);
-    const [abrev, setAbrev] = useState<string>(aabrev);
+    const [abrev, setAbrev] = useState<string>(cognoms);
 
-    const modModul = async () => {
+    const modalumne = async () => {
         //const nom = nomInput.current?.value as string;
         //const abrev = abrevInput.current?.value as string;
         $.ajax({
             method: "PUT",
-            url: context.urlapi + "/Api/modul/api.php",
-            data: { jwt: context.jwt, codi: 1, Nom: nom, Abrev: abrev },
+            url: context.urlapi + "/Api/persona/api.php?jwt=" + context.jwt + "&codi=" + ccodi + "&Nom=" + nom + "&Cognoms=" + abrev,// + "&professor=0",
+            //data: { jwt: context.jwt, codi: ccodi, Nom: nom, Cognoms: abrev, professor: 0 },
             error: function (request, status, error) {
                 context.presentAlert('Registre', 'Error', request.responseText, ['Ok']);
             }
         })
             .done(function(res) {
-                //context.presentAlert("Modul", "", res.message, ["OK"]);
-                window.location.replace('moduls');
+                //context.presentAlert("alumne", "", res.message, ["OK"]);
+                window.location.replace('alumnes');
         });
     };
 
@@ -79,7 +79,7 @@ const ModAlumne: React.FC = () => {
                         <IonButtons slot='start'>
                             <IonMenuButton />
                         </IonButtons>
-                        <IonTitle>Modificar Modul</IonTitle>
+                        <IonTitle>Modificar alumne</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
@@ -106,8 +106,8 @@ const ModAlumne: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol className='ion-text-center ion-margin-top'>
-                                <IonButton expand='block' fill='outline' onClick={modModul}>
-                                    Modificar Modul
+                                <IonButton expand='block' fill='outline' onClick={modalumne}>
+                                    Modificar alumne
                                 </IonButton>
                             </IonCol>
                         </IonRow>
