@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import * as $ from 'jquery'
-import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn, Modul, Validar } from './context';
+import ActivitiesContext, { Activity, ContextModel, ActivityType, Persona, LoginReturn, Modul, Validar, UF } from './context';
 
 const ContextProvider: React.FC = (props) => {
 
@@ -40,6 +40,7 @@ const ContextProvider: React.FC = (props) => {
         var persones = Array<Persona>();
         $.ajax({
             method: "GET",
+            async: false,
             url: ctx.urlapi + "/Api/persona/json.php?professor=" + (professor ? 1 : 0),
             data: {jwt: ctx.jwt}
         })
@@ -68,6 +69,7 @@ const ContextProvider: React.FC = (props) => {
         var moduls = Array<Modul>();
         $.ajax({
             method: "GET",
+            async: false,
             url: ctx.urlapi + "/Api/modul/api.php",
             data: {jwt: ctx.jwt}
         })
@@ -81,6 +83,31 @@ const ContextProvider: React.FC = (props) => {
                     })
                   });
                 ctx.moduls = moduls;
+            });
+    };
+
+    const ObtenirUFs = (ctx: ContextModel) => {
+        var item = globalThis.localStorage.getItem("JWT");
+        ctx.jwt = (item ?? '');
+        var ufs = Array<UF>();
+        $.ajax({
+            method: "GET",
+            async: false,
+            url: ctx.urlapi + "/Api/unitatformativa/api.php",
+            data: {jwt: ctx.jwt}
+        })
+            .done(function(res) {
+                //console.log(jwt);
+                $.each(res.records, function(i, item : UF) {
+                    ufs.push({
+                        codi: item.codi,
+                        Nom: item.Nom,
+                        Abrev: item.Abrev,
+                        Hores: item.Hores,
+                        Modul: item.Modul
+                    })
+                  });
+                ctx.ufs = ufs;
             });
     };
 
@@ -142,6 +169,8 @@ const ContextProvider: React.FC = (props) => {
     const [alumnes, setAlumnes] = useState<Persona[]>([]);
 
     const [moduls, setModuls] = useState<Modul[]>([]);
+
+    const [ufs, setUFs] = useState<UF[]>([]);
 
     const addActivity = (title: string, description: string, activityType: ActivityType) => {
         let imageUrl = '';
@@ -226,13 +255,15 @@ const ContextProvider: React.FC = (props) => {
         alumnes,
         professors,
         ObtenirPersones,
+        ObtenirUFs,
         jwt: globalThis.localStorage.getItem("JWT") ?? '',
-        urlapi: 'http://192.168.2.212/ProjecteGit2',
+        urlapi: 'http://192.168.1.210/Projecte',
         logged: false,
         Login,
         Registrar,
         presentAlert,
         moduls,
+        ufs,
         ObtenirModuls,
         ComprovarJWT
     };

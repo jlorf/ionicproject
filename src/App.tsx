@@ -47,6 +47,9 @@ import Registrar from "./pages/Registrar/Registrar";
 import { bodyOutline, newspaperOutline } from "ionicons/icons";
 import ContextProvider from "./data/ContextProvider";
 import Context from "./data/context";
+import UFs from "./pages/UFs/UFs";
+import AddUF from "./pages/AddUF/AddUF";
+import ModUF from "./pages/ModUF/ModUF";
 
 const App: React.FC = () => {
   const context = useContext(Context);
@@ -56,6 +59,7 @@ const App: React.FC = () => {
     ? [
         { id: "/alumnes", comp: "Alumnes" },
         { id: "/moduls", comp: "Moduls" },
+        { id: "/ufs", comp: "UFs" },
         { id: "/logout", comp: "Logout" },
       ]
     : [
@@ -102,7 +106,10 @@ const App: React.FC = () => {
             <Route path="/afegir-modul" component={AddModul} exact />
             <Route path="/mod-modul" component={ModModul} exact />
             <Route path="/mod-alumne" component={ModAlumne} exact />
+            <Route path="/mod-uf" component={ModUF} exact />
             <Route path="/afegir-alumne" component={AddAlumne} exact />
+            <Route path="/afegir-uf" component={AddUF} exact />
+            <Route path="/ufs" component={UFs} exact />
             <Redirect to={context.logged ? "/moduls" : "/login"} />
           </IonRouterOutlet>
         </ContextProvider>
