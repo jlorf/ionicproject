@@ -123,7 +123,7 @@ const ContextProvider: React.FC = (props) => {
         })
             .done(function(res: LoginReturn) {
                 if (res.jwt){
-                    presentAlert('Login', 'Correcte', res.message, ['Ok']);
+                    //presentAlert('Login', 'Correcte', res.message, ['Ok']);
                     //activitiesContext.jwt = res.jwt;
                     ctx.logged = true;
                     ctx.jwt = res.jwt;

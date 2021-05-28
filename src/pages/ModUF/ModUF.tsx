@@ -88,6 +88,10 @@ const ModUF: React.FC = () => {
     });
   };
 
+  const modAlumnes = async () => {
+    window.location.replace("alumnes-uf");
+  };
+
   return (
     <React.Fragment>
       <IonToast
@@ -149,6 +153,13 @@ const ModUF: React.FC = () => {
                   </IonSelectOption>
                 ))}
               </IonSelect>
+            </IonRow>
+            <IonRow>
+              <IonCol className="ion-text-center ion-margin-top">
+                <IonButton expand="block" fill="outline" onClick={modAlumnes}>
+                  Alumnes UF
+                </IonButton>
+              </IonCol>
             </IonRow>
             <IonRow>
               <IonCol className="ion-text-center ion-margin-top">

@@ -50,6 +50,7 @@ import Context from "./data/context";
 import UFs from "./pages/UFs/UFs";
 import AddUF from "./pages/AddUF/AddUF";
 import ModUF from "./pages/ModUF/ModUF";
+import { AlumnesUF } from "./pages/EditarAlumnesUF/EditarAlumnesUF";
 
 const App: React.FC = () => {
   const context = useContext(Context);
@@ -110,6 +111,7 @@ const App: React.FC = () => {
             <Route path="/afegir-alumne" component={AddAlumne} exact />
             <Route path="/afegir-uf" component={AddUF} exact />
             <Route path="/ufs" component={UFs} exact />
+            <Route path="/alumnes-uf" component={AlumnesUF} exact />
             <Redirect to={context.logged ? "/moduls" : "/login"} />
           </IonRouterOutlet>
         </ContextProvider>

@@ -84,6 +84,12 @@ export interface UF {
   Modul: string;
 }
 
+export interface GrupClasse {
+  UF: string;
+  Persona: BigInteger;
+  professor: string;
+}
+
 const Context = React.createContext<ContextModel>({
   activities: [],
   professors: [],
