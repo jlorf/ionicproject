@@ -127,6 +127,7 @@ const ContextProvider: React.FC = (props) => {
                     //activitiesContext.jwt = res.jwt;
                     ctx.logged = true;
                     ctx.jwt = res.jwt;
+                    ctx.usuari = res.user;
                     globalThis.localStorage.setItem('JWT', res.jwt);
                     window.location.replace('moduls');
                 }
@@ -259,6 +260,7 @@ const ContextProvider: React.FC = (props) => {
         jwt: globalThis.localStorage.getItem("JWT") ?? '',
         urlapi: 'http://192.168.1.210/Projecte',
         logged: false,
+        usuari: '',
         Login,
         Registrar,
         presentAlert,

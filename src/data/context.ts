@@ -27,6 +27,7 @@ export interface Modul {
 }
 
 export interface LoginReturn {
+  user: string;
   message: string;
   jwt: string;
 }
@@ -50,6 +51,7 @@ export interface ContextModel {
   jwt: string;
   urlapi: string;
   logged: boolean;
+  usuari: string;
   ObtenirPersones: (ctx: ContextModel, professor: boolean) => void;
   ObtenirModuls: (ctx: ContextModel) => void;
   ObtenirUFs: (ctx: ContextModel) => void;
@@ -98,6 +100,7 @@ const Context = React.createContext<ContextModel>({
   ufs: [],
   jwt: globalThis.localStorage.getItem("JWT") ?? "",
   logged: false,
+  usuari: '',
   urlapi: "http://192.168.1.210/Projecte",
   addActivity: () => {},
   completeActivity: () => {},
@@ -123,6 +126,7 @@ const Context = React.createContext<ContextModel>({
         //activitiesContext.jwt = res.jwt;
         ctx.logged = true;
         ctx.jwt = item ?? "";
+        ctx.usuari = (resJSON?.data?.firstname ?? "") + " " + (resJSON?.data?.lastname ?? "");
       } else {
         ctx.logged = false;
       }

@@ -59,14 +59,14 @@ export const AlumnesUF: React.FC = () => {
   };
 
   const ModificarLlista = (alumne: Persona, chk: boolean) => {
+    let index = alumnesuf.indexOf(alumne);
       if (chk){
-          if (alumnesuf.indexOf(alumne) == -1){
+          if (index == -1){
               alumnesuf.push(alumne);
           }
       } else {
-        if (alumnesuf.indexOf(alumne) == -1){
-            debugger;
-            alumnesuf.slice(alumnesuf.indexOf(alumne), 1);
+        if (index != -1){
+            alumnesuf.splice(index, 1);
         }
       }
   }
@@ -78,6 +78,7 @@ export const AlumnesUF: React.FC = () => {
   const Guardar = () => {
       var persones = Array<Uint8Array>();
       alumnesuf.map(alumne => persones.push(alumne.codi));
+      if ((persones?.length ?? 0) == 0) persones.push(-1 as unknown as Uint8Array);
     $.ajax({
         method: "POST",
         url:
@@ -100,7 +101,7 @@ export const AlumnesUF: React.FC = () => {
         },
       }).done(function (res) {
         //context.presentAlert("Modul", "", res.message, ["OK"]);
-        window.location.replace("ufs");
+        window.location.replace("mod-uf");
       });
     setShowModal(false);
   }

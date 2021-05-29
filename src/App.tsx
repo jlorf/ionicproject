@@ -68,6 +68,11 @@ const App: React.FC = () => {
         { id: "/registrar", comp: "Registrar" },
       ];
 
+      var item = <IonItem hidden={!context?.logged}>
+        <IonIcon color="medium" slot="start" icon={bodyOutline} />
+        <IonLabel>{context?.usuari}</IonLabel>
+      </IonItem>
+
   return (
     <IonApp>
       <IonReactRouter>
@@ -79,6 +84,7 @@ const App: React.FC = () => {
           </IonHeader>
           <IonContent>
             <IonList>
+              {item}
               {array.map((item) => (
                 <IonMenuToggle>
                   <IonItem
