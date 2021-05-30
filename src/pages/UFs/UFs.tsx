@@ -84,7 +84,7 @@ const UFs: React.FC = () => {
                 </IonCard>
               </IonCol>
             </IonRow>
-            {context.ufs.map((uf) => (
+            {context.ufs.sort((a,b) => a.Nom.toLowerCase().localeCompare(b.Nom.toLowerCase()) + a.Abrev.toLowerCase().localeCompare(b.Abrev.toLowerCase())).map((uf) => (
               <IonRow key={uf.codi.toString()}>
                 <IonCol className="ion-text-center">
                   <IonCard onClick={() => btnClick(uf)} color="warning">

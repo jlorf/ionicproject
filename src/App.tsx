@@ -50,6 +50,7 @@ import Context from "./data/context";
 import UFs from "./pages/UFs/UFs";
 import AddUF from "./pages/AddUF/AddUF";
 import ModUF from "./pages/ModUF/ModUF";
+import { Assistencia } from "./pages/Assistencia/Assistencia";
 import { AlumnesUF } from "./pages/EditarAlumnesUF/EditarAlumnesUF";
 
 const App: React.FC = () => {
@@ -61,6 +62,7 @@ const App: React.FC = () => {
         { id: "/alumnes", comp: "Alumnes" },
         { id: "/moduls", comp: "Moduls" },
         { id: "/ufs", comp: "UFs" },
+        { id: "/assistencia", comp: "Assistencia" },
         { id: "/logout", comp: "Logout" },
       ]
     : [
@@ -118,6 +120,7 @@ const App: React.FC = () => {
             <Route path="/afegir-uf" component={AddUF} exact />
             <Route path="/ufs" component={UFs} exact />
             <Route path="/alumnes-uf" component={AlumnesUF} exact />
+            <Route path="/assistencia" component={Assistencia} exact />
             <Redirect to={context.logged ? "/moduls" : "/login"} />
           </IonRouterOutlet>
         </ContextProvider>

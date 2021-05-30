@@ -81,7 +81,7 @@ const Alumnes: React.FC = () => {
                 </IonCard>
               </IonCol>
             </IonRow>
-            {context.alumnes.map((alumne) => (
+            {context.alumnes.sort((a,b) => a.Nom.toLowerCase().localeCompare(b.Nom.toLowerCase()) + a.Cognoms.toLowerCase().localeCompare(b.Cognoms.toLowerCase())).map((alumne) => (
               <IonRow key={alumne.codi.toString()}>
                 <IonCol className="ion-text-center">
                   <IonCard color="warning" onClick={() => btnClick(alumne)}>

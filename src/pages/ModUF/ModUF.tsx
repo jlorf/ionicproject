@@ -147,7 +147,7 @@ const ModUF: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonSelect id="modul" name="modul" value={mdul} onIonChange={(e) => setModul(e.detail.value!)}>
-                {context.moduls.map((item) => (
+                {context.moduls.sort((a,b) => a.Nom.toLowerCase().localeCompare(b.Nom.toLowerCase()) + a.Abrev.toLowerCase().localeCompare(b.Abrev.toLowerCase())).map((item) => (
                   <IonSelectOption key={item.codi.toString()} value={item.codi}>
                     {item.Nom + "(" + item.Abrev + ")"}
                   </IonSelectOption>

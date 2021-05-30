@@ -117,7 +117,7 @@ export const AlumnesUF: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Modificar UF</IonTitle>
+          <IonTitle>Modificar Alumnes UF</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -125,7 +125,7 @@ export const AlumnesUF: React.FC = () => {
           <IonLabel className="ion-text-center">Alumnes</IonLabel>
           <IonContent>
             <IonList>
-              {context.alumnes.map((alumne) => (
+              {context.alumnes.sort((a,b) => a.Nom.localeCompare(b.Nom) + a.Cognoms.localeCompare(b.Cognoms)).map((alumne) => (
                 <IonItem>
                     {/*onClick={ item => ModificarLlista(alumne, (item.currentTarget.children[0] as HTMLIonCheckboxElement).checked)}*/}
                   <IonCheckbox checked={alumnesuf.indexOf(alumne) != -1} onClick={ item => ModificarLlista(alumne, item.currentTarget.checked)} />
@@ -143,7 +143,7 @@ export const AlumnesUF: React.FC = () => {
         </IonButton>
         {/*-- List of Text Items --*/}
         <IonList>
-          {alumnesuf.map((alumne) => (
+          {alumnesuf.sort((a,b) => a.Nom.localeCompare(b.Nom) + a.Cognoms.localeCompare(b.Cognoms)).map((alumne) => (
             <IonItem>
               <IonLabel className="ion-text-center">
                 {alumne.Nom} {alumne.Cognoms}

@@ -84,7 +84,7 @@ const Moduls: React.FC = () => {
                 </IonCard>
               </IonCol>
             </IonRow>
-            {context.moduls.map((modul) => (
+            {context.moduls.sort((a,b) => a.Nom.toLowerCase().localeCompare(b.Nom.toLowerCase()) + a.Abrev.toLowerCase().localeCompare(b.Abrev.toLowerCase())).map((modul) => (
               <IonRow key={modul.codi.toString()}>
                 <IonCol className="ion-text-center">
                   <IonCard onClick={() => btnClick(modul)} color="warning">
