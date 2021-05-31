@@ -33,6 +33,7 @@ import {
   IonSelectOption,
   IonCol,
 } from "@ionic/react";
+import { data } from "jquery";
 
 export const Assistencia: React.FC = () => {
   const context = useContext(Context);
@@ -40,26 +41,12 @@ export const Assistencia: React.FC = () => {
   let alumnesuf = Array<Persona>();
   let ufobj: UF = null as unknown as UF;
 
-  var modul = globalThis.localStorage.getItem("UFSEL");
-  let codi = "";
-  let nnom = "";
-  let aabrev = "";
-  let hhores = "";
-  let mmodul = "";
-
-  if (modul !== null && modul !== "") {
-    try {
-        ufobj = JSON.parse(modul) as UF;
-      codi = ufobj.codi;
-      nnom = ufobj.Nom;
-      aabrev = ufobj.Abrev;
-      hhores = ufobj.Hores;
-      mmodul = ufobj.Modul;
-    } catch {}
-  }
-
-  const [uf, setUF] = useState<string>(ufobj?.codi ?? null);
+  var modul:string = globalThis.localStorage.getItem("UFSEL") as string;
+  var dt:string = globalThis.localStorage.getItem("DATA") as string;
+  const [uf, setUF] = useState<string>(modul ?? null);
   const [showModal, setShowModal] = useState(false);
+  let dtt = dt != null && dt != undefined ? new Date(JSON.parse(dt)) : new Date()
+  const [data, setData] = useState<Date>(dtt);
 
   const ObtenirAlumnesUF = (ctx: ContextModel) => {
     var uf = globalThis.localStorage.getItem("UFSEL");
@@ -72,7 +59,7 @@ export const Assistencia: React.FC = () => {
         method: "GET",
         async: false,
         url: ctx.urlapi + "/Api/grupclasse/api.php",
-        data: { jwt: ctx.jwt, uf: ufobj.codi },
+        data: { jwt: ctx.jwt, uf: uf },
       }).done(function (res) {
         //console.log(jwt);
         $.each(res.records, function (i, item: GrupClasse) {
@@ -90,29 +77,45 @@ export const Assistencia: React.FC = () => {
 
   const ModificarLlista = (alumne: Persona, chk: boolean) => {
     let index = alumnesuf.indexOf(alumne);
-    if (chk) {
-      if (index == -1) {
-        alumnesuf.push(alumne);
-      }
-    } else {
-      if (index != -1) {
-        alumnesuf.splice(index, 1);
-      }
-    }
+    alumnesuf[index].professor = chk;
   };
 
   const MostrarModal = () => {
     setShowModal(true);
   };
 
+  const ObtenirAssistencia = (ctx : ContextModel) => {
+    $.ajax({
+      method: "GET",
+      url: context.urlapi + "/Api/assistencia/api.php",
+      data: {
+        jwt: ctx.jwt,
+        uf: ufobj,
+        data: data.toJSON().slice(0, 16),
+      },
+      async: false,
+      error: function (request, status, error) {
+        // debugger;
+        // ctx.presentAlert("UF", "Error", request.responseText, ["Ok"]);
+      },
+    }).done(function (res) {
+      $.each(res.records, function(i, item) {
+        let alumne = alumnesuf.find(a => a.codi == item.Alumne) as Persona;
+        alumne.professor = JSON.parse(item.Present) == 1 ? true : false;
+      });
+    });
+    //setShowModal(false);
+  };
+
   const Guardar = () => {
-    var persones = Array<Uint8Array>();
-    alumnesuf.map((alumne) => persones.push(alumne.codi));
+    var persones = Array<object>();
+    alumnesuf.map((alumne) => persones.push({Alumne: alumne.codi, Esta: alumne.professor ? 1 : 0}));
+    //data.setMinutes(data.getMinutes() - data.getTimezoneOffset());
     if ((persones?.length ?? 0) == 0)
       persones.push(-1 as unknown as Uint8Array);
     $.ajax({
       method: "POST",
-      url: context.urlapi + "/Api/grupclasse/api.php", //?jwt=" +
+      url: context.urlapi + "/Api/assistencia/api.php", //?jwt=" +
       /*context.jwt +
           "&uf=" +
           ufobj.codi +
@@ -126,22 +129,27 @@ export const Assistencia: React.FC = () => {
           uf,*/
       data: {
         jwt: context.jwt,
-        uf: ufobj.codi,
-        persones: persones,
-        professor: 0,
+        uf: ufobj,
+        alumnes: persones,
+        data: data.toJSON().slice(0, 16),
       },
       error: function (request, status, error) {
         context.presentAlert("UF", "Error", request.responseText, ["Ok"]);
       },
     }).done(function (res) {
       //context.presentAlert("Modul", "", res.message, ["OK"]);
-      window.location.replace("mod-uf");
+      //window.location.replace("assistencia");
     });
     setShowModal(false);
   };
 
-  const updateUF = (selected: UF) => {
-    globalThis.localStorage.setItem("UFSEL", JSON.stringify(selected));
+  const updateUF = (selected: string) => {
+    globalThis.localStorage.setItem("UFSEL", selected);
+    window.location.replace("assistencia");
+  }
+
+  const updateData = (selected: Date) => {
+    globalThis.localStorage.setItem("DATA", JSON.stringify(selected));
     window.location.replace("assistencia");
   }
 
@@ -150,6 +158,8 @@ export const Assistencia: React.FC = () => {
   context.ObtenirUFs(context);
 
   ObtenirAlumnesUF(context);
+debugger;
+  if (data != null && data != undefined) ObtenirAssistencia(context);
 
   return (
     <IonPage>
@@ -182,7 +192,8 @@ export const Assistencia: React.FC = () => {
               <IonDatetime
                 displayFormat="DD MMMM YYYY HH:mm"
                 placeholder="Select Date"
-                value={new Date().toString()}
+                value={data.toUTCString()}
+                onIonChange={(e) => updateData(new Date(Date.parse(e.detail.value!)))}
               ></IonDatetime>
             </IonCol>
           </IonRow>
